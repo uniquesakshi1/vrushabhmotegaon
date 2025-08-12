@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width,initial-scale=1" />
+ <title>ऑनलाइन सेवा केंद्र - सर्व सेवा</title>
+ <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+ <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+ <style>
+  :root{
+   --primary:#28a745; /* Green primary color */
+   --nav:#1e7e34; /* Darker green nav */
+   --accent:#a7edba; /* Light green accent */
+   --whatsapp:#25D366;
+   --card-bg:#ffffff;
+   --page-bg:#f8f9fa; /* Light grey background */
+   --muted:#6c757d;
+  }
+  *{box-sizing:border-box}
+  body{
+   margin:0;
+   font-family: 'Noto Sans Devanagari', sans-serif;
+   background:var(--page-bg);
+   color:#212529; /* Dark text color */
+   -webkit-font-smoothing:antialiased;
+  }
+  header{
+   background: linear-gradient(90deg,var(--primary),var(--accent));
+   color:#fff;
+   text-align:center;
+   padding:28px 18px;
+  }
+  header h1{margin:0;font-size:2rem;letter-spacing:0.5px}
+  header p{margin:8px 0 0;opacity:0.8}
+  .logo {
+   display: block;
+   margin: 10px auto;
+   max-width: 150px;
+   height: auto;
+  }
+  nav{
+   background:var(--nav);
+   display:flex;
+   gap:8px;
+   justify-content:center;
+   flex-wrap:wrap;
+   padding:8px;
+   position:sticky;
+   top:0;
+   z-index:40;
+  }
+  nav a{
+   color:#fff;
+   padding:12px 18px;
+   text-decoration:none;
+   font-weight:700;
+   border-radius:8px;
+   transition: background-color 0.3s ease;
+  }
+  nav a:hover{background:rgba(0,0,0,0.15)}
+  main{max-width:1200px;margin:26px auto;padding:0 20px 60px;}
+  section{margin-bottom:32px; animation:fadeIn .5s ease}
+  h2{color:var(--nav);text-align:center;margin-bottom:20px}
+  h3{color:var(--nav);text-align:center;margin-top:20px;margin-bottom:15px;}
+  .grid{
+   display:grid;
+   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+   gap:16px;
+  }
+  .card{
+   background:var(--card-bg);
+   padding:20px;border-radius:12px;
+   box-shadow:0 8px 24px rgba(0,0,0,0.1);
+   text-align:center;
+   transition: transform 0.2s ease-in-out;
+  }
+  .card:hover{transform:scale(1.02)}
+  table{
+   width:100%;
+   border-collapse:collapse;
+   background:var(--card-bg);
+   border-radius:10px;
+   overflow:hidden;
+   box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  }
+  th,td{
+   padding:14px;border-bottom:1px solid #e9ecef;text-align:left;font-size:0.95rem
+  }
+  th{background:var(--primary);color:#fff;font-weight:700}
+  .center{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+  .btn{
+   display:inline-block;background:var(--primary);color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700;
+   transition: background-color 0.3s ease;
+  }
+  .btn:hover{background:var(--nav)}
+  .muted{color:var(--muted);font-size:0.9rem}
+  /* Gallery */
+  .gallery-grid{
+   display:grid;
+   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+   gap:12px;
+  }
+  .gallery-grid img{
+   width:100%;
+   height:auto;
+   object-fit: contain;
+   border-radius:10px;
+   cursor:pointer;
+   box-shadow:0 6px 18px rgba(0,0,0,0.06);
+   transition:transform .25s;
+  }
+  .gallery-grid img:hover{transform:scale(1.04)}
+
+  /* Net banking specific image styling to ensure they respect the contain property */
+  #net-banking .gallery-grid img {
+    height: auto;
+    object-fit: contain;
+    max-height: 150px;
+  }
+
+  /* Lightbox */
+  .lightbox-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1200;align-items:center;justify-content:center;padding:20px}
+  .lightbox-wrap.active{display:flex}
+  .lightbox-img{max-width:95%;max-height:92%;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,0.6)}
+  .lightbox-close{position:fixed;top:18px;right:22px;color:#fff;font-size:30px;text-decoration:none;z-index:1300}
+  /* Contact / map */
+  .contact-card{background:var(--card-bg);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+  .map-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin-top:16px}
+  .map-responsive iframe{position:absolute;left:0;top:0;height:100%;width:100%;border:0}
+  /* floating whatsapp */
+  .whatsapp-float{
+   position:fixed;right:20px;bottom:20px;width:65px;height:65px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,0.2);z-index:1400;
+   transition: transform 0.2s ease-in-out;
+  }
+  .whatsapp-float:hover{transform:scale(1.05)}
+  .whatsapp-float a{color:#fff;font-size:30px;text-decoration:none}
+  footer{background:var(--primary);color:#fff;padding:16px;text-align:center;border-top-left-radius:8px;border-top-right-radius:8px;margin-top:20px}
+
+  /* Responsive Adjustments */
+  @media (max-width:768px){
+   header h1{font-size:1.75rem}
+   nav a{padding:10px 14px;font-size:0.9rem}
+   .grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+   .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  }
+  @media (max-width:600px){
+   header h1{font-size:1.5rem}
+   .grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+   .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+   .card{padding:16px}
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+ </style>
+</head>
+<body>
+
+ <header>
+  <img src="logo.png" alt="ऑनलाइन सेवा केंद्र लोगो" class="logo">
+  <h1>ऑनलाइन सेवा केंद्र</h1>
+  <div class="muted">तुमच्या सर्व सरकारी आणि खाजगी ऑनलाइन सेवांसाठी</div>
+ </header>
+
+ <nav>
+  <a href="#home">मुख्यपृष्ठ</a>
+  <a href="#services">सेवा</a>
+  <a href="#documents">आवश्यक कागदपत्रे</a>
+  <a href="#insurance-gallery">इन्शुरन्स गॅलरी</a>
+  <a href="#net-banking">नेट बँकिंग</a>
+  <a href="#payment">पेमेंट</a>
+  <a href="#contact">संपर्क</a>
+  <a href="#policy">वापर धोरण</a>
+ </nav>
+
+ <main id="home">
+
+  <section id="intro">
+   <h2>तुमचे विश्वसनीय ऑनलाइन सेवा केंद्र</h2>
+   <div class="card">
+    <p class="muted">
+     **L.I.C. Of India, Bramhapuri 99H Dt. Chandrapur**<br>
+     **पत्ता:** Maha E Seva Kendra At Post. Motegaon Ta. Chimur
+    </p>
+    <p style="margin-top:10px"><strong>प्रो. प्रा. वृषभ कामाडी</strong></p>
+    <p class="muted">इंटरनेट, प्रिंटिंग, फॉर्म भरण्यापासून ते LIC आणि गॅस कनेक्शनपर्यंत, सर्व सेवा एकाच ठिकाणी!</p>
+   </div>
+  </section>
+
+  <section id="contact-share">
+   <h2>आम्हाला संपर्क करा</h2>
+   <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+    <div class="card" style="padding: 15px; text-align: center;">
+     <a href="tel:+919527586007" style="display:block; text-decoration:none; color:inherit;">
+      <i class="fas fa-phone-alt fa-2x" style="color:var(--primary);"></i>
+      <p style="margin-top:5px;">कॉल करा (मो.नं. 1)</p>
+      <p class="muted">+91 95275 86007</p>
+     </a>
+    </div>
+    <div class="card" style="padding: 15px; text-align: center;">
+     <a href="tel:+918552890355" style="display:block; text-decoration:none; color:inherit;">
+      <i class="fas fa-phone-alt fa-2x" style="color:var(--primary);"></i>
+      <p style="margin-top:5px;">कॉल करा (मो.नं. 2)</p>
+      <p class="muted">+91 85528 90355</p>
+     </a>
+    </div>
+    <div class="card" style="padding: 15px; text-align: center;">
+     <a href="https://wa.me/919527586007" target="_blank" style="display:block; text-decoration:none; color:inherit;">
+      <i class="fab fa-whatsapp fa-2x" style="color:#25D366;"></i>
+      <p style="margin-top:5px;">WhatsApp करा</p>
+      <p class="muted">+91 95275 86007</p>
+     </a>
+    </div>
+    <div class="card" style="padding: 15px; text-align: center;">
+     <a href="mailto:vrushabkamdi@gmail.com" style="display:block; text-decoration:none; color:inherit;">
+      <i class="fas fa-envelope fa-2x" style="color:#dc3545;"></i>
+      <p style="margin-top:5px;">ईमेल करा</p>
+      <p class="muted">vrushabkamdi@gmail.com</p>
+     </a>
+    </div>
+    <div class="card" style="padding: 15px; text-align: center;">
+     <p style="margin-bottom: 5px;">शेअर करा:</p>
+     <div style="display:flex; justify-content:center; gap:10px;">
+      <a href="#" title="Share on WhatsApp" onclick="window.open('whatsapp://send?text=' + encodeURIComponent(document.title + ' - ' + window.location.href), '_blank');"><i class="fab fa-whatsapp fa-lg" style="color:#25D366;"></i></a>
+      <a href="#" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');"><i class="fab fa-facebook-f fa-lg" style="color:#3b5998;"></i></a>
+      <a href="#" title="Share on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title + '&url=' + window.location.href), '_blank');"><i class="fab fa-twitter fa-lg" style="color:#1da1f2;"></i></a>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="services">
+   <h2>आमच्या सेवा</h2>
+   <div class="grid">
+    <div class="card">💻 इंटरनेट ब्राउझिंग / संगणक सेवा</div>
+    <div class="card">🖨 झेरॉक्स, प्रिंटिंग, स्कॅनिंग, लॅमिनेशन</div>
+    <div class="card">📄 कॉलेज व शालेय फॉर्म भरणे</div>
+    <div class="card">💼 व्यवसाय परवाना, फूड लायसन्स, जीएसटी नोंदणी</div>
+    <div class="card">🧾 आधार कार्ड / पॅन कार्ड सेवा</div>
+    <div class="card">🌾 शेतकरी सेवा (७/१२, पिक विमा, शेतकरी योजना)</div>
+    <div class="card">📝 नवीन गॅस कनेक्शन</div>
+    <div class="card">💳 गॅस सबसिडी फॉर्म</div>
+    <div class="card">💰 LIC प्रीमियम भरणे</div>
+    <div class="card">📈 LIC पॉलिसी स्टेटस</div>
+   </div>
+  </section>
+
+  <section id="govt">
+   <h2>शासकीय सुविधा</h2>
+   <div class="grid">
+    <div class="card">🥗 फूड लायसन्स अर्ज व मदत</div>
+    <div class="card">⚡ वीज बिल भरणे व नवीन कनेक्शन अर्ज</div>
+    <div class="card">🏛 रोजगार योजना अर्ज / नोंदणी</div>
+    <div class="card">📝 जातीचा दाखला / रहिवासी दाखला</div>
+    <div class="card">🗳 मतदार नोंदणी व मदत</div>
+    <div class="card">💳 पॅन कार्ड अर्ज</div>
+   </div>
+  </section>
+
+  <section id="documents">
+   <h2>आवश्यक कागदपत्रे (सेवेनुसार)</h2>
+   <table>
+    <tr>
+     <th>सेवा</th>
+     <th>आवश्यक कागदपत्रे</th>
+    </tr>
+    <tr>
+     <td>कॉलेज प्रवेश / शाळा फॉर्म</td>
+     <td>आधार कार्ड, मार्कशीट/शाळेचा दाखला, पासपोर्ट साईझ फोटो, पत्ता पुरावा, जात दाखला</td>
+    </tr>
+    <tr>
+     <td>LIC प्रीमियम भरणे</td>
+     <td>पॉलिसी नंबर, जन्मतारीख, प्रीमियम रकमेची माहिती.</td>
+    </tr>
+    <tr>
+     <td>नवीन गॅस कनेक्शन</td>
+     <td>आधार कार्ड, ओळखपत्र (मतदान ओळखपत्र/ड्रायव्हिंग लायसन्स), रहिवासी प्रमाणपत्र (वीज बिल/भाडे करार), पासपोर्ट आकाराचा फोटो.</td>
+    </tr>
+    <tr>
+     <td>पॅन कार्ड अर्ज</td>
+     <td>आधार कार्ड (KYC), पासपोर्ट साईझ फोटो, सही आणि बँक तपशील (आवश्यक असल्यास)</td>
+    </tr>
+    <tr>
+     <td>शेतकरी योजना / ७/१२</td>
+     <td>आधार कार्ड, जमिनीचा दस्तऐवज (७/१२), बँक पासबुक</td>
+    </tr>
+   </table>
+  </section>
+
+  <!-- अद्ययावित इन्शुरन्स गॅलरी -->
+  <section id="insurance-gallery">
+   <h2>📸 इन्शुरन्स गॅलरी</h2>
+   <div class="gallery-grid">
+    <img src="I1.png" alt="इन्शुरन्स इमेज १" loading="lazy">
+    <img src="I2.png" alt="इन्शुरन्स इमेज २" loading="lazy">
+    <img src="I3.png" alt="इन्शुरन्स इमेज ३" loading="lazy">
+    <img src="I4.png" alt="इन्शुरन्स इमेज ४" loading="lazy">
+    <img src="I5.png" alt="इन्शुरन्स इमेज ५" loading="lazy">
+    <img src="I6.png" alt="इन्शुरन्स इमेज ६" loading="lazy">
+    <img src="I7.png" alt="इन्शुरन्स इमेज ७" loading="lazy">
+    <img src="I8.png" alt="इन्शुरन्स इमेज ८" loading="lazy">
+    <img src="I9.png" alt="इन्शुरन्स इमेज ९" loading="lazy">
+    <img src="I10.png" alt="इन्शुरन्स इमेज १०" loading="lazy">
+   </div>
+  </section>
+
+  <!-- नेट बँकिंग सेवा आणि ग्राहक सेवा केंद्र सेवा -->
+  <section id="net-banking">
+   <h2>💳 नेट बँकिंग आणि ग्राहक सेवा केंद्र सेवा</h2>
+
+   <h3>सेवांचे आयकॉन/प्रतीक</h3>
+   <div class="gallery-grid">
+    <img src="N1.png" alt="बचत खाते झिरो बॅलन्स" loading="lazy">
+    <img src="N2.png" alt="फ्लेक्सी आवर्ती जमा खाता" loading="lazy">
+    <img src="N3.png" alt="विशेष आवर्ती जमा खाता" loading="lazy">
+    <img src="N4.png" alt="फंड ट्रान्सफर खाते से खाते में" loading="lazy">
+    <img src="N5.png" alt="तत्काल धन प्रेषण" loading="lazy">
+    <img src="N6.png" alt="कार्ड आधारित लेन-देन" loading="lazy">
+    <img src="N7.png" alt="आधार सक्षम भुगतान लेन-देन" loading="lazy">
+    <img src="N8.png" alt="अटल पेंशन योजना" loading="lazy">
+    <img src="N9.png" alt="प्रधान मंत्री जीवन ज्योत बीमा योजना" loading="lazy">
+    <img src="N10.png" alt="प्रधान मंत्री सुरक्षा बीमा योजना" loading="lazy">
+    <img src="N11.png" alt="आधार सीडिंग" loading="lazy">
+    <img src="N12.png" alt="ऋण भुगतान" loading="lazy">
+    <img src="N13.png" alt="खात्याचे मिनी स्टेटमेंट" loading="lazy">
+    <img src="N14.png" alt="मोफत बचत खाते" loading="lazy">
+   </div>
+
+   <h3 style="margin-top: 30px;">सेवांची सविस्तर माहिती</h3>
+   <div class="grid">
+    <div class="card">
+     <h4>बचत खाते झिरो बॅलन्स</h4>
+     <p class="muted">झिरो बॅलन्सवर बचत खाते उघडा आणि तुमच्या पैशांवर सुरक्षितपणे बचत करा.</p>
+    </div>
+    <div class="card">
+     <h4>फ्लेक्सी आवर्ती जमा खाते</h4>
+     <p class="muted">लवकरच सुरू होणाऱ्या योजनांमधून तुमच्या गुंतवणुकीवर चांगला परतावा मिळवा.</p>
+    </div>
+    <div class="card">
+     <h4>विशेष आवर्ती जमा खाते</h4>
+     <p class="muted">तुमच्या भविष्यासाठी योजना बनवा आणि विशेष आवर्ती जमा खात्यामध्ये गुंतवणूक करा.</p>
+    </div>
+    <div class="card">
+     <h4>फंड ट्रान्सफर (खाते ते खाते)</h4>
+     <p class="muted">एका बँक खात्यातून दुसऱ्या बँक खात्यात सहजपणे पैसे हस्तांतरित करा.</p>
+    </div>
+    <div class="card">
+     <h4>तत्काळ धन प्रेषण</h4>
+     <p class="muted">तातडीच्या पैशांची गरज असल्यास त्वरित पैसे पाठवा किंवा मिळवा.</p>
+    </div>
+    <div class="card">
+     <h4>कार्ड आधारित लेन-देन</h4>
+     <p class="muted">डेबिट किंवा क्रेडिट कार्ड वापरून सुरक्षित व्यवहार करा.</p>
+    </div>
+    <div class="card">
+     <h4>आधार सक्षम भुगतान लेन-देन (AePS)</h4>
+     <p class="muted">आधार कार्ड वापरून रोख रक्कम काढणे, जमा करणे आणि शिल्लक चौकशी करणे.</p>
+    </div>
+    <div class="card">
+     <h4>अटल पेन्शन योजना (APY)</h4>
+     <p class="muted">वृद्धापकाळासाठी सुरक्षितता सुनिश्चित करण्यासाठी अटल पेन्शन योजनेत नोंदणी करा.</p>
+    </div>
+    <div class="card">
+     <h4>प्रधान मंत्री जीवन ज्योत बीमा योजना (PMJJBY)</h4>
+     <p class="muted">जीवन विमा संरक्षण मिळवा आणि कुटुंबाला आर्थिक सुरक्षा प्रदान करा.</p>
+    </div>
+    <div class="card">
+     <h4>प्रधान मंत्री सुरक्षा बीमा योजना (PMSBY)</h4>
+     <p class="muted">कमी प्रीमियममध्ये अपघात विमा संरक्षण मिळवा.</p>
+    </div>
+    <div class="card">
+     <h4>आधार सीडिंग</h4>
+     <p class="muted">तुमचे आधार कार्ड बँक खात्याशी लिंक करा, ज्यामुळे सरकारी सबसिडी थेट तुमच्या खात्यात जमा होतील.</p>
+    </div>
+    <div class="card">
+     <h4>कर्ज भुगतान</h4>
+     <p class="muted">तुमच्या कर्जाचे हप्ते किंवा पूर्ण रक्कम सोप्या पद्धतीने भरा.</p>
+    </div>
+    <div class="card">
+     <h4>खात्याचे मिनी स्टेटमेंट</h4>
+     <p class="muted">तुमच्या खात्यातील शेवटच्या काही व्यवहारांचा तपशील त्वरित मिळवा.</p>
+    </div>
+    <div class="card">
+     <h4>मोफत बचत खाते</h4>
+     <p class="muted">शून्य किमान शिल्लक असलेल्या बचत खात्याचे लाभ घ्या.</p>
+    </div>
+   </div>
+  </section>
+
+  <section id="payment">
+   <h2>ऑनलाइन पेमेंट</h2>
+   <div class="center" style="flex-direction:column;">
+    <p class="muted">QR कोड स्कॅन करून पेमेंट करा!</p>
+    <div style="margin-top:10px;max-width:200px;text-align:center;">
+     <img src="upi_qr.png" alt="UPI QR Code" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+    </div>
+   </div>
+  </section>
+
+  <!-- 'गॅलरी' विभाग काढण्यात आला आहे. -->
+
+  <section id="contact">
+   <h2>🛑 संपर्क</h2>
+   <div class="contact-card">
+    <p><strong>💥🖥🖱 ऑनलाइन सेवा केंद्र</strong></p>
+    <p>
+     **नाव:** वृषभ पांडुरंग कामदी (VRUSHABH PANDURANG KAMDI)<br>
+     **कोड नं.:** 02838 - 99H
+    </p>
+    <p>
+     **ऑफिस:** L.I.C. Of India, Bramhapuri 99H Dt. Chandrapur<br>
+     **पत्ता:** Maha E Seva Kendra At Post. Motegaon Ta. Chimur
+    </p>
+    <p>
+     **मो.नं.:** <a href="tel:+919527586007">+91 95275 86007</a>, <a href="tel:+918552890355">+91 85528 90355</a>
+    </p>
+    <p>
+     **ईमेल:** <a href="mailto:vrushabkamdi@gmail.com">vrushabkamdi@gmail.com</a>
+    </p>
+    <div class="map-responsive">
+     <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15000.0!2d79.4000!3d20.3000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4900a7b7d0325%3A0x633e8b1d9c2a3e9c!2sMotegaon%2C%20Maharashtra%20442903!5e0!3m2!1sen!2sin!4v1719584000000!5m2!1sen!2sin"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+   </div>
+  </section>
+
+  <section id="policy">
+   <h2>वापर धोरण (Use Policy)</h2>
+   <div class="card">
+    <p><strong>1. सेवा:</strong> आम्ही विविध सरकारी आणि खाजगी ऑनलाइन सेवा प्रदान करतो.</p>
+    <p><strong>2. शुल्क:</strong> आमच्या सेवांसाठी लागू शुल्क सेवेच्या वेळीच भरावे लागेल.</p>
+    <p><strong>3. कागदपत्रे:</strong> ग्राहकाने सर्व आवश्यक आणि योग्य कागदपत्रे उपलब्ध करून देणे आवश्यक आहे. चुकीच्या माहितीसाठी आम्ही जबाबदार राहणार नाही.</p>
+    <p><strong>4. गोपनीयता:</strong> आम्ही ग्राहकांची वैयक्तिक माहिती गोपनीय ठेवतो आणि तिचा वापर केवळ सेवा देण्यासाठी करतो.</p>
+    <p><strong>5. सेवा विलंब:</strong> सरकारी पोर्टल किंवा तांत्रिक समस्यांमुळे सेवांमध्ये विलंब होऊ शकतो. यासाठी आम्ही जबाबदार राहणार नाही.</p>
+   </div>
+  </section>
+
+ </main>
+
+ <footer>
+  © 2025 ऑनलाइन सेवा | सर्व हक्क राखीव
+ </footer>
+
+ <div class="whatsapp-float" aria-hidden="false">
+  <a href="https://wa.me/919527586007" target="_blank" rel="noopener" aria-label="WhatsApp">
+   <i class="fab fa-whatsapp"></i>
+  </a>
+ </div>
+
+ <!-- p1, p2 इमेजेससाठीचा स्क्रिप्ट काढण्यात आला आहे. -->
+ <script>
+  /* या वेबसाइटमध्ये आता ऑटो-जनरेटेड गॅलरी आयटम्स नाहीत, त्यामुळे संबंधित स्क्रिप्ट काढण्यात आली आहे. */
+ </script>
+
+</body>
+</html>
